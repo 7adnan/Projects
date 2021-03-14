@@ -1,0 +1,41 @@
+*******************************************************
+* This SAS code is an example from the text			  *
+* SAS ESSENTIALS 2nd Ed, Wiley                        *
+* (C) 2016 Elliott, Alan C. and Woodward, Wayne A.    *
+*******************************************************;
+
+* This example illustrates GCHART and ODS;
+
+*......PART 1: CREATE REPORTS FOR GROUPS A, B, and C;
+ODS HTML BODY="C:\SASDATA\GPA.HTM";
+PROC MEANS DATA= "C:\SASDATA\SOMEDATA" MAXDEC=2 N MEAN STD;
+VAR AGE TIME1-TIME4;
+WHERE GP="A";
+TITLE 'Summary for GROUP A';
+RUN;
+ODS HTML BODY="C:\SASDATA\GPB.HTM";
+PROC MEANS DATA= "C:\SASDATA\SOMEDATA" MAXDEC=2 N MEAN STD;
+VAR AGE TIME1-TIME4;
+WHERE GP="B";
+TITLE 'Summary for GROUP B';
+RUN;
+ODS HTML BODY="C:\SASDATA\GPC.HTM";
+PROC MEANS DATA= "C:\SASDATA\SOMEDATA" MAXDEC=2 N MEAN STD;
+VAR AGE TIME1-TIME4;
+WHERE GP="C";
+TITLE 'Summary for GROUP C';
+RUN;
+*.......PART 2: CREATE THE LINKS IN  A DATA STEP;
+DATA BARCHART;SET "C:\SASDATA\SOMEDATA";
+LENGTH HTMLLINK $40;
+IF GP="A" THEN HTMLLINK='HREF="GPA.HTM"';
+IF GP="B" THEN HTMLLINK='HREF="GPB.HTM"';
+IF GP="C" THEN HTMLLINK='HREF="GPC.HTM"';
+ODS HTML FILE="C:\SASDATA\GCHART.HTM" GPATH="C:\SASDATA\";
+*.......PART 3: CREATE THE GRAPH;
+PROC GCHART;
+      HBAR GP/ HTML=HTMLLINK;
+      TITLE 'Summary information for each GP.';
+RUN; QUIT;
+ODS HTML CLOSE;
+ODS PREFERENCES; *Reset HTML output;

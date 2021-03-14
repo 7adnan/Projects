@@ -1,0 +1,7 @@
+ABRAMS               JJ	      C0001 Producer
+BRISTOW              SYDNEY   C0015 Teacher
+VAUGHN               MICHAEL  C0033 Agent
+FLINKMAN             MARSHALL C0123 Analyst
+SLOAN                ARVIN    C0666
+BRISTOW              JACK
+DIXON                MARCUS   C0233 Chief
